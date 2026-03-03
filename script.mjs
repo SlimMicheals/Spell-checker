@@ -17,3 +17,51 @@ async function loadDictionary() {
 }
 
 loadDictionary();
+
+const textInput = document.getElementById("text-input");
+const checkBtn = document.getElementById("check-btn");
+const resultsDiv = document.getElementById("results");
+
+textInput.addEventListener("input", () => {
+  resultsDiv.innerHTML = "";
+});
+
+checkBtn.addEventListener("click", handleSpellCheck);
+
+function handleSpellCheck() {
+  const text = textInput.value;
+
+  if (!text) {
+    resultsDiv.innerHTML = "Please enter some text.";
+    return;
+  }
+
+  const cleaned = text
+  .toLowerCase()
+  .replace(/-/g, " ")
+  .replace(/[^\w\s]/g, "")
+  .trim();
+
+const words = cleaned.split(/\s+/);
+
+  const misspelled = words.filter(word => {
+
+  // Ignore capitalized words (original text check)
+  if (/^[A-Z]/.test(word)) {
+    return false;
+  }
+
+  return word && !dictionary.includes(word);
+});
+
+  displayResults(misspelled);
+}
+
+function displayResults(misspelledWords) {
+  if (misspelledWords.length === 0) {
+    resultsDiv.innerHTML = "No spelling mistakes found.";
+  } else {
+    resultsDiv.innerHTML =
+      "Misspelled words: " + misspelledWords.join(", ");
+  }
+}
