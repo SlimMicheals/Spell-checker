@@ -58,10 +58,44 @@ const words = cleaned.split(/\s+/);
 }
 
 function displayResults(misspelledWords) {
+
   if (misspelledWords.length === 0) {
     resultsDiv.innerHTML = "No spelling mistakes found.";
-  } else {
-    resultsDiv.innerHTML =
-      "Misspelled words: " + misspelledWords.join(", ");
+    return;
   }
+
+  resultsDiv.innerHTML = "";
+
+  const title = document.createElement("p");
+  title.textContent = "Misspelled words:";
+  resultsDiv.appendChild(title);
+
+  const list = document.createElement("ul");
+
+  misspelledWords.forEach(word => {
+
+    const item = document.createElement("li");
+
+    const wordText = document.createElement("span");
+    wordText.textContent = word + " ";
+    item.appendChild(wordText);
+
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add to dictionary";
+
+    addButton.addEventListener("click", () => {
+
+      if (!dictionary.includes(word)) {
+        dictionary.push(word);
+      }
+
+      handleSpellCheck();
+    });
+
+    item.appendChild(addButton);
+    list.appendChild(item);
+
+  });
+
+  resultsDiv.appendChild(list);
 }
