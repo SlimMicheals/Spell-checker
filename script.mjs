@@ -38,8 +38,7 @@ function handleSpellCheck() {
 
   const cleaned = text
   .toLowerCase()
-  .replace(/-/g, " ")
-  .replace(/[^\w\s]/g, "")
+  .replace(/[^\w\s-]/g, "") 
   .trim();
 
 const words = cleaned.split(/\s+/);
