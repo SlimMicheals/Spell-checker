@@ -4,6 +4,7 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
+import { getMisspelledWords } from "./common.mjs";
 let dictionary = [];
 
 async function loadDictionary() {
@@ -35,23 +36,7 @@ function handleSpellCheck() {
     resultsDiv.innerHTML = "Please enter some text.";
     return;
   }
-
-  const cleaned = text
-  .toLowerCase()
-  .replace(/[^\w\s-]/g, "") 
-  .trim();
-
-const words = cleaned.split(/\s+/);
-
-  const misspelled = words.filter(word => {
-
-  // Ignore capitalized words (original text check)
-  if (/^[A-Z]/.test(word)) {
-    return false;
-  }
-
-  return word && !dictionary.includes(word);
-});
+  const misspelled = getMisspelledWords(text, dictionary);
 
   displayResults(misspelled);
 }
