@@ -62,6 +62,8 @@ function displayResults(misspelledWords) {
 
     const wordText = document.createElement("span");
     wordText.textContent = word + " ";
+    wordText.style.color = "red";
+    wordText.style.fontWeight = "bold";
     item.appendChild(wordText);
 
     const addButton = document.createElement("button");
